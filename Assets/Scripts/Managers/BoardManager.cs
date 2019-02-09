@@ -96,22 +96,29 @@ public class BoardManager : MonoBehaviour
     {
         return Mathf.RoundToInt((number ^ 2) * (number / 2));
     }
+
 	private DotList GetRandomDot()
 	{
-        int index;
-        int probability = Random.Range(0, 100);
-
-        if (probability < 7)
-            index = 3;
-        else if (probability < 20)
-            index = 2;
-        else if (probability < 45)
-            index = 1;    
-        else
-            index = 0;
-
-		return dotList[index];
+		return dotList[GetRandomIndex()];
 	}
+
+    public int GetRandomIndex()
+    {
+        int probability = Random.Range(0, 100);
+        int[] probList;
+
+        if (gm.IsGameMode(GameMode.TIME)) 
+            probList = new int[] { 45, 20, 7 };
+        else
+            probList = new int[] { 45, 28, 17 };
+
+        if (probability <= probList[2]) return 3;
+        if (probability <= probList[1]) return 2;
+        if (probability <= probList[0]) return 1;
+        
+        return 0;
+    }
+
     private DotList GetDotByNumber(int number)
     {
         return dotList[number - 1];
@@ -253,7 +260,16 @@ public class BoardManager : MonoBehaviour
 
             // Add Points and Time
             if (gm.gameMode == GameMode.TIME)
-                gm.AddTime(targetDot.number);    
+            {
+                if (targetDot.number <= 3)
+                    gm.AddTime(2);
+                else if (targetDot.number <= 6)
+                    gm.AddTime(3);
+                else if (targetDot.number <= 9)
+                    gm.AddTime(5);
+                else
+                    gm.AddTime(7);
+            } 
 
             gm.AddScore(GetScoreByNumber(targetDot.number + 1));
 

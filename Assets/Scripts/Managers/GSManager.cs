@@ -31,7 +31,6 @@ public class GSManager : MonoBehaviour
     void OnUserLoginSucceeded()
     {
         Debug.Log("User logged in successfully.");
-        data.OpenSavedGame();
     }
 
     void OnUserLoginFailed()
