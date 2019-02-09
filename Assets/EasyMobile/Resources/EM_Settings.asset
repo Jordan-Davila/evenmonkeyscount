@@ -1,0 +1,327 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4452e2410c04b34915077cbe0f3a4d, type: 3}
+  m_Name: EM_Settings
+  m_EditorClassIdentifier: 
+  mAdvertisingSettings:
+    mAutoLoadAdsMode: 2
+    mAdCheckingInterval: 10
+    mAdLoadingInterval: 20
+    mIosDefaultAdNetworks:
+      bannerAdNetwork: 2
+      interstitialAdNetwork: 0
+      rewardedAdNetwork: 0
+    mAndroidDefaultAdNetworks:
+      bannerAdNetwork: 2
+      interstitialAdNetwork: 0
+      rewardedAdNetwork: 0
+    mAdColony:
+      mAppId:
+        mIosId: 
+        mAndroidId: 
+      mOrientation: 2
+      mEnableRewardedAdPrePopup: 0
+      mEnableRewardedAdPostPopup: 0
+      mDefaultInterstitialAdId:
+        mIosId: 
+        mAndroidId: 
+      mDefaultRewardedAdId:
+        mIosId: 
+        mAndroidId: 
+      mCustomInterstitialAdIds:
+        keys: []
+        values: []
+      mCustomRewardedAdIds:
+        keys: []
+        values: []
+    mAdMob:
+      mTargetingSettings:
+        mTagForChildDirectedTreatment: 0
+        mExtraOptions:
+          keys: []
+          values: []
+      mEnableTestMode: 1
+      mTestDeviceIds:
+      - 
+      mAppId:
+        mIosId: ca-app-pub-7080562633175785~9852089468
+        mAndroidId: ca-app-pub-7080562633175785~1060807176
+      mDefaultBannerAdId:
+        mIosId: ca-app-pub-3940256099942544/2934735716
+        mAndroidId: ca-app-pub-3940256099942544/2934735716
+      mDefaultInterstitialAdId:
+        mIosId: 
+        mAndroidId: 
+      mDefaultRewardedAdId:
+        mIosId: 
+        mAndroidId: 
+      mCustomBannerAdIds:
+        keys: []
+        values: []
+      mCustomInterstitialAdIds:
+        keys: []
+        values: []
+      mCustomRewardedAdIds:
+        keys: []
+        values: []
+    mFBAudience:
+      mBannerAdSize: 0
+      mEnableTestMode: 0
+      mTestDevices: []
+      mDefaultBannerId:
+        mIosId: 
+        mAndroidId: 
+      mDefaultInterstitialAdId:
+        mIosId: 
+        mAndroidId: 
+      mDefaultRewardedAdId:
+        mIosId: 
+        mAndroidId: 
+      mCustomBannerIds:
+        keys: []
+        values: []
+      mCustomInterstitialAdIds:
+        keys: []
+        values: []
+      mCustomRewardedAdIds:
+        keys: []
+        values: []
+    mChartboost:
+      mCustomInterstitialPlacements: []
+      mCustomRewardedPlacements: []
+    mHeyzap:
+      mPublisherId: 
+      mShowTestSuite: 0
+      mCustomInterstitialPlacements: []
+      mCustomRewardedPlacements: []
+    mIronSource:
+      mAppId:
+        mIosId: 
+        mAndroidId: 
+      mUseAdvancedSetting: 0
+      mSegments:
+        age: 0
+        gender: 
+        level: 0
+        isPaying: 0
+        userCreationDate: 0
+        iapt: 0
+        segmentName: 
+        customParams:
+          keys: []
+          values: []
+    mMoPub:
+      mReportAppOpen: 0
+      mITuneAppID: 
+      mEnableLocationPassing: 0
+      mUseAdvancedSetting: 0
+      mMediationSettings: []
+      mInitNetworks: 
+      mAdvancedBidders: 
+      mAutoRequestConsent: 0
+      mForceGdprApplicable: 0
+      mDefaultBannerId:
+        mIosId: 
+        mAndroidId: 
+      mDefaultInterstitialAdId:
+        mIosId: 
+        mAndroidId: 
+      mDefaultRewardedAdId:
+        mIosId: 
+        mAndroidId: 
+      mCustomBannerIds:
+        keys: []
+        values: []
+      mCustomInterstitialAdIds:
+        keys: []
+        values: []
+      mCustomRewardedAdIds:
+        keys: []
+        values: []
+    mTapjoy:
+      mAutoReconnect: 1
+      mAutoReconnectInterval: 10
+      mDefaultInterstitialAdId:
+        mIosId: 
+        mAndroidId: 
+      mDefaultRewardedAdId:
+        mIosId: 
+        mAndroidId: 
+      mCustomInterstitialAdIds:
+        keys: []
+        values: []
+      mCustomRewardedAdIds:
+        keys: []
+        values: []
+    mUnityAds:
+      mDefaultInterstitialAdId:
+        mIosId: video
+        mAndroidId: video
+      mDefaultRewardedAdId:
+        mIosId: rewardedVideo
+        mAndroidId: rewardedVideo
+      mCustomInterstitialAdIds:
+        keys: []
+        values: []
+      mCustomRewardedAdIds:
+        keys: []
+        values: []
+  mGameServiceSettings:
+    mAutoInit: 1
+    mAutoInitDelay: 0
+    mAndroidMaxLoginRequests: 2
+    mGpgsDebugLogEnabled: 1
+    mGpgsPopupGravity: 0
+    mLeaderboards:
+    - _name: Time
+      _iosId: time
+      _androidId: CgkIvszNzuoZEAIQCw
+    - _name: Endless
+      _iosId: endless
+      _androidId: CgkIvszNzuoZEAIQDA
+    mAchievements:
+    - _name: Connect to 6
+      _iosId: connect6
+      _androidId: CgkIvszNzuoZEAIQAQ
+    - _name: Connect to 9
+      _iosId: connect9
+      _androidId: CgkIvszNzuoZEAIQAg
+    - _name: Connect to 13
+      _iosId: connect13
+      _androidId: CgkIvszNzuoZEAIQAw
+    - _name: Connect Beyond 13
+      _iosId: connect13plus
+      _androidId: CgkIvszNzuoZEAIQBA
+    - _name: 250 Points
+      _iosId: points250
+      _androidId: CgkIvszNzuoZEAIQBQ
+    - _name: 500 Points
+      _iosId: points500
+      _androidId: CgkIvszNzuoZEAIQBg
+    - _name: 1000 Points
+      _iosId: points1000
+      _androidId: CgkIvszNzuoZEAIQBw
+    - _name: 1500 Points
+      _iosId: points1500
+      _androidId: CgkIvszNzuoZEAIQCA
+    - _name: 2000 Points
+      _iosId: points2000
+      _androidId: CgkIvszNzuoZEAIQCQ
+    - _name: 2000 Plus Points
+      _iosId: points2000plus
+      _androidId: CgkIvszNzuoZEAIQCg
+    mAndroidXmlResources: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!--\nGoogle
+      Play game services IDs.\nSave this file as res/values/games-ids.xml in your
+      project.\n-->\n<resources>\n  <!-- app_id -->\n  <string name=\"app_id\" translatable=\"false\">887612466750</string>\n
+      \ <!-- package_name -->\n  <string name=\"package_name\" translatable=\"false\">com.nyanku.evenmonkeyscount</string>\n
+      \ <!-- achievement Connect to 6 - Time Mode -->\n  <string name=\"achievement_connect_to_6__time_mode\"
+      translatable=\"false\">CgkIvszNzuoZEAIQAQ</string>\n  <!-- achievement Connect
+      to 9 - Time Mode -->\n  <string name=\"achievement_connect_to_9__time_mode\"
+      translatable=\"false\">CgkIvszNzuoZEAIQAg</string>\n  <!-- achievement Connect
+      to 13 - Time Mode -->\n  <string name=\"achievement_connect_to_13__time_mode\"
+      translatable=\"false\">CgkIvszNzuoZEAIQAw</string>\n  <!-- achievement Connect
+      Beyond 13 - Time Mode -->\n  <string name=\"achievement_connect_beyond_13__time_mode\"
+      translatable=\"false\">CgkIvszNzuoZEAIQBA</string>\n  <!-- achievement Earn
+      250 Points - Time Mode -->\n  <string name=\"achievement_earn_250_points__time_mode\"
+      translatable=\"false\">CgkIvszNzuoZEAIQBQ</string>\n  <!-- achievement Earn
+      500 Points - Time Mode -->\n  <string name=\"achievement_earn_500_points__time_mode\"
+      translatable=\"false\">CgkIvszNzuoZEAIQBg</string>\n  <!-- achievement Earn
+      1000 Points - Time Mode -->\n  <string name=\"achievement_earn_1000_points__time_mode\"
+      translatable=\"false\">CgkIvszNzuoZEAIQBw</string>\n  <!-- achievement Earn
+      1500 Points - Time Mode -->\n  <string name=\"achievement_earn_1500_points__time_mode\"
+      translatable=\"false\">CgkIvszNzuoZEAIQCA</string>\n  <!-- achievement Earn
+      2000 Points - Time Mode -->\n  <string name=\"achievement_earn_2000_points__time_mode\"
+      translatable=\"false\">CgkIvszNzuoZEAIQCQ</string>\n  <!-- achievement Earn
+      More than 2000 Points - Time Mode -->\n  <string name=\"achievement_earn_more_than_2000_points__time_mode\"
+      translatable=\"false\">CgkIvszNzuoZEAIQCg</string>\n  <!-- leaderboard Time
+      Leaderboard -->\n  <string name=\"leaderboard_time_leaderboard\" translatable=\"false\">CgkIvszNzuoZEAIQCw</string>\n
+      \ <!-- leaderboard Endless Leaderboard -->\n  <string name=\"leaderboard_endless_leaderboard\"
+      translatable=\"false\">CgkIvszNzuoZEAIQDA</string>\n</resources>"
+    mEnableSavedGames: 0
+    mAutoConflictResolutionStrategy: 0
+    mGpgsDataSource: 0
+  mInAppPurchaseSettings:
+    mTargetAndroidStore: 0
+    mSimulateAppleAskToBuy: 1
+    mInterceptApplePromotionalPurchases: 0
+    mEnableAmazonSandboxTesting: 0
+    mValidateAppleReceipt: 0
+    mValidateGooglePlayReceipt: 0
+    mProducts:
+    - _name: No Ads
+      _type: 0
+      _id: no_ads
+      _price: 0.99
+      _description: Remove pesky ads from game.
+      _storeSpecificIds:
+      - store: 6
+        id: no_ads
+      - store: 0
+        id: no_ads
+      _isEditingAdvanced: 1
+  mNotificationSettings:
+    mAutoInit: 1
+    mAutoInitDelay: 0
+    mIosAuthOptions: 7
+    mPushNotificationService: 0
+    mOneSignalAppId: 
+    mFirebaseTopics: []
+    mCategoryGroups: []
+    mDefaultCategory:
+      id: notification.category.default
+      groupId: 
+      name: Default
+      description: 
+      importance: 0
+      enableBadge: 1
+      lights: 1
+      lightColor: {r: 1, g: 1, b: 1, a: 1}
+      vibration: 1
+      vibrationPattern: 
+      lockScreenVisibility: 2
+      sound: 1
+      soundName: 
+      actionButtons: []
+    mUserCategories: []
+  mPrivacySettings:
+    mDefaultConsentDialog:
+      mContent: 
+      mTitle: Privacy Consent
+      mToggles: []
+      mActionButtons: []
+    mConsentDialogComposerSettings:
+      mToggleSelectedIndex: 0
+      mButtonSelectedIndex: 0
+      mEnableCopyPasteMode: 0
+  mRatingRequestSettings:
+    mDefaultRatingDialogContent:
+      mTitle: Rate $PRODUCT_NAME
+      mMessage: How would you rate $PRODUCT_NAME?
+      mLowRatingMessage: That's bad. Would you like to give us some feedback instead?
+      mHighRatingMessage: Awesome! Let's do it!
+      mPostponeButtonText: Not Now
+      mRefuseButtonText: Don't Ask Again
+      mRateButtonText: Rate Now!
+      mCancelButtonText: Cancel
+      mFeedbackButtonText: Send Feedback
+    mMinimumAcceptedStars: 4
+    mSupportEmail: 
+    mIosAppId: 
+    mAnnualCap: 12
+    mDelayAfterInstallation: 10
+    mCoolingOffPeriod: 10
+    mIgnoreContraintsInDevelopment: 0
+  mIsAdModuleEnable: 1
+  mIsIAPModuleEnable: 1
+  mIsGameServiceModuleEnable: 1
+  mIsNotificationModuleEnable: 0
+  mActiveModuleIndex: 2
+  mIsSelectingModule: 0
