@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a11842fdf1fa841aa86f277a4aac0480, type: 3}
+  m_Name: Light
+  m_EditorClassIdentifier: 
+  themeName: 
+  description: 
+  backgroundImage: {fileID: 0}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  Dots:
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0
+  - name: 
+    number: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    dotType: 0

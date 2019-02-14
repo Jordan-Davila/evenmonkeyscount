@@ -6,12 +6,10 @@ using System.Collections;
 public class GSManager : MonoBehaviour 
 {
     public string screenshotPath;
-    private DataManager data;
 
     private void Awake() 
     {
         GameServices.ManagedInit();
-        data = Object.FindObjectOfType<DataManager>();
     }
 
     void OnEnable()

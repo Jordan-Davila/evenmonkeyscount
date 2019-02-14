@@ -6,6 +6,7 @@ public enum GameState { MENU, PAUSED, PLAYING, GAMESTART, GAMEOVER, TUTORIAL };
 public enum GameMode { TIME, ENDLESS };
 public class GameManager : MonoBehaviour
 {
+    [Header("Game Properties")]
     public GameState gameState;
     public GameMode gameMode;
     public int score;
@@ -15,6 +16,12 @@ public class GameManager : MonoBehaviour
     public float maxTime;
     public float currentTime;
     public bool isFirstTime = true;
+    public int selectedTheme = 0;
+
+    [Header("Themes")]
+    public ThemeProperties[] themes;
+
+    [Header("Managers")]
     private BoardManager board;
     private UIManager ui;
     private DataManager data;
@@ -27,7 +34,6 @@ public class GameManager : MonoBehaviour
         board = Object.FindObjectOfType<BoardManager>();
         ui = Object.FindObjectOfType<UIManager>();
         
-        // Application.targetFrameRate = 60;
         // Init EM runtime if needed (useful in case only this scene is built).
         if (!RuntimeManager.IsInitialized()) RuntimeManager.Init();
     }
@@ -80,7 +86,6 @@ public class GameManager : MonoBehaviour
 
         ui.UpdateGameUI();
         board.FillBoard();
-        ui.sound.Play("pop");
     }
  
     public void GameOver(string title)
@@ -111,7 +116,6 @@ public class GameManager : MonoBehaviour
         SwitchGameState(GameState.GAMESTART);
         Reset();
         ui.UpdateGameUI();
-        ui.sound.Play("pop");
         board.FillBoard();
     }
  
@@ -128,11 +132,25 @@ public class GameManager : MonoBehaviour
         ui.gameUI.UpdateTime(currentTime);
     }  
  
-    public void AddTime(int time)
+    public void AddTime(int targetNumber)
     {
-        currentTime += time;
-        ui.gameUI.UpdateTime(currentTime);
-        ui.gameUI.DisplayAddedTime(time);
+        float addedTime = 0;
+
+        if (IsGameMode(GameMode.TIME))
+        {
+            if (targetNumber <= 3)
+                addedTime = 2;
+           else if (targetNumber <= 6)
+                addedTime = 3;
+            else if (targetNumber <= 9)
+                addedTime = 5;
+            else
+                addedTime = 7;
+
+            currentTime += addedTime;
+            ui.gameUI.UpdateTime(currentTime);
+            ui.gameUI.DisplayAddedTime((int)addedTime);
+        } 
     }
  
     public void AddScore(int points)
@@ -140,6 +158,35 @@ public class GameManager : MonoBehaviour
         score += points;
         ui.gameUI.UpdateScore(score);
     }
+
+    public void HandleAchivements(int newDotNumber)
+    {
+        if (IsGameMode(GameMode.TIME))
+        {
+            if (newDotNumber == 6)
+                gs.UnlockAchievement(EM_GameServicesConstants.Achievement_Connect_to_6);
+            else if (newDotNumber == 9)
+                gs.UnlockAchievement(EM_GameServicesConstants.Achievement_Connect_to_9);
+            else if (newDotNumber == 13)
+                gs.UnlockAchievement(EM_GameServicesConstants.Achievement_Connect_to_13);
+            else if (newDotNumber > 13)
+                gs.UnlockAchievement(EM_GameServicesConstants.Achievement_Connect_Beyond_13);
+
+            if (score >= 250)
+                gs.UnlockAchievement(EM_GameServicesConstants.Achievement_250_Points);
+            if (score >= 500)
+                gs.UnlockAchievement(EM_GameServicesConstants.Achievement_500_Points);
+            if (score >= 1000)
+                gs.UnlockAchievement(EM_GameServicesConstants.Achievement_1000_Points);
+            if (score >= 1500)
+                gs.UnlockAchievement(EM_GameServicesConstants.Achievement_1500_Points);
+            if (score >= 2000)
+                gs.UnlockAchievement(EM_GameServicesConstants.Achievement_2000_Points);
+            if (score > 2000)
+                gs.UnlockAchievement(EM_GameServicesConstants.Achievement_2000_Plus_Points);
+        }
+    }
+
     public void RemoveAds()
     {
         ads = false;
