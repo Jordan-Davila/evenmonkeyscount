@@ -1,11 +1,11 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using EasyMobile;
- 
+
 public class Data
 {
     public int timeHighScore;
@@ -14,170 +14,121 @@ public class Data
     public bool isFirstTime;
     public string hash;
 }
- 
+
 public class DataManager : MonoBehaviour
 {
+    [HideInInspector]
     public GameManager gm;
-    private SavedGame _savedgame;
+    public UIManager ui;
     private void Awake()
     {
         gm = UnityEngine.Object.FindObjectOfType<GameManager>();
+        ui = UnityEngine.Object.FindObjectOfType<UIManager>();
+        Init();
     }
 
-    private void Start() 
+    public void Init()
     {
-        OpenSavedGame();
+        if (PlayerPrefs.HasKey("savedata"))
+            LoadData();
+        else
+            LoadData();
     }
 
-    public void OpenSavedGame()
-    {
-        GameServices.SavedGames.OpenWithAutomaticConflictResolution("data", (SavedGame savedgame, string error) =>
-            {
-                if (string.IsNullOrEmpty(error))
-                {
-                    Debug.LogWarning("Saved game " + savedgame.Name + " opened successfully!");
-                    _savedgame = savedgame;
-
-                    // Load Data after opening
-                    LoadData();
-                }
-                else
-                {
-                    Debug.LogWarning("Open saved game failed with error: " + error);
-                }
-            }
-        );
-    }
- 
     public void SaveData()
     {
         Debug.LogWarning("SaveCloudData: Saving...");
-        byte[] newByteData = InstanceToByte();
-
-        if (_savedgame.IsOpen)
-        {            
-            GameServices.SavedGames.WriteSavedGameData(_savedgame, newByteData, (SavedGame sg, string error) => {
-                if (string.IsNullOrEmpty(error)) Debug.Log("Writing Game Worked Successfully");
-                else Debug.LogWarning("Writing Game Failed");
-            });
-        }
-        else
-        {
-            GameServices.SavedGames.OpenWithAutomaticConflictResolution("data", (SavedGame saveData, string error) =>
-            {
-                // Save SaveGame after you open it
-                _savedgame = saveData;
-
-                if (string.IsNullOrEmpty(error))
-                {
-                    Debug.LogWarning("Saved game " + saveData.Name + " opened successfully!");
-                    GameServices.SavedGames.WriteSavedGameData(_savedgame, newByteData, (SavedGame sg, string err) => {
-                        if (string.IsNullOrEmpty(err)) Debug.Log("Writing Game Worked Successfully");
-                        else Debug.LogWarning("Writing Game Failed");
-                    });
-                }
-                else
-                    Debug.LogWarning("Open saved game failed with error: " + error);
-            });
-        }
+        PlayerPrefs.SetString("savedata", ConvertToBase64(InstanceToJson()));
     }
- 
+
     public void LoadData()
     {
-        // Load Cloud Data
-        Debug.LogWarning("LoadCloudData: Loading...");
+        string dataAsJson = ConvertToJSON(PlayerPrefs.GetString("savedata"));
+        Debug.Log("LoadCloudData: Loading...");
 
-        if (_savedgame.IsOpen)
+        Debug.LogWarning("GetCloud Data as JSON: " + dataAsJson);
+        Data loadedData = JsonUtility.FromJson<Data>(dataAsJson);
+
+        if (loadedData.hash == HashData(loadedData))
         {
-            GameServices.SavedGames.ReadSavedGameData(_savedgame, (SavedGame sg, byte[] loadedData, string error) =>
-            {
-                if (string.IsNullOrEmpty(error))
-                {
-                    ByteToInstance(loadedData);
-                    Debug.LogWarning("Writing Game Worked Successfully");
-                } 
-                else Debug.Log("Writing Game Failed");
-            });
+            // Load Cloud Data to this instance
+            LoadToInstance(loadedData);
         }
         else
         {
-            GameServices.SavedGames.OpenWithAutomaticConflictResolution("data", (SavedGame saveData, string error) =>
-            {
-                // Save SaveGame after you open it
-                _savedgame = saveData;
+            Debug.LogError("Hacked Data File! Starting new data file.");
 
-                if (string.IsNullOrEmpty(error))
-                {
-                    GameServices.SavedGames.ReadSavedGameData(_savedgame, (SavedGame sg, byte[] loadedData, string err) =>
-                    {
-                        if (string.IsNullOrEmpty(err))
-                        {
-                            ByteToInstance(loadedData);
-                            Debug.LogWarning("Writing Game Worked Successfully");
-                        }
-                        else Debug.LogWarning("Writing Game Failed");
-                    });
-                }
-                else
-                    Debug.LogWarning("Open saved game failed with error: " + error);
-            });
+            // Save A New Copy
+            SaveData();
         }
     }
- 
-    public void ByteToInstance(byte[] data)
+
+    public void LoadToInstance(Data loadedData)
     {
-        Data loadedData = ByteToData(data);
         gm.timeHighScore = loadedData.timeHighScore;
         gm.endlessHighScore = loadedData.endlessHighScore;
         gm.isFirstTime = loadedData.isFirstTime;
         gm.ads = loadedData.ads;
+
+        // Update GUIS
+        ui.UpdateMenuUI();
     }
- 
-    public byte[] InstanceToByte()
+
+    public string InstanceToJson()
     {
         Data newDataToSave = new Data();
         newDataToSave.timeHighScore = gm.timeHighScore;
         newDataToSave.endlessHighScore = gm.endlessHighScore;
         newDataToSave.isFirstTime = gm.isFirstTime;
         newDataToSave.ads = gm.ads;
- 
+
         newDataToSave.hash = HashData(newDataToSave);
-        return DataToByte(newDataToSave);
+        return JsonUtility.ToJson(newDataToSave, true);
     }
- 
+
     public string HashData(Data data)
     {
         // Important! Don't hash our own hash value
         data.hash = String.Empty;
- 
+
         // Data to JSON
         string stringData = JsonUtility.ToJson(data, true);
- 
+
         //Setup SHA
         SHA256Managed crypt = new SHA256Managed();
         string hash = String.Empty; // Same as null or ""
- 
+
         //Compute Hash
         byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(stringData), 0, Encoding.UTF8.GetByteCount(stringData));
- 
+
         //Convert to Hex
         foreach (byte bit in crypto)
         {
             hash += bit.ToString("x2");
         }
- 
+
         return hash.Trim();
     }
- 
-    public byte[] DataToByte(Data data)
+
+    public string ConvertToBase64(string jsonString)
     {
-        Debug.LogWarning("Converting to Byte");
-        return System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(data));
+        return Convert.ToBase64String(Encoding.UTF8.GetBytes(jsonString));
     }
- 
-    public Data ByteToData(byte[] data)
+
+    public string ConvertToJSON(string base64String)
     {
-        Debug.LogWarning("Converting to JSON");
-        return JsonUtility.FromJson<Data>(System.Text.Encoding.UTF8.GetString(data));
+        return Encoding.UTF8.GetString(Convert.FromBase64String(base64String));
+    }
+
+    public void ResetData()
+    {
+        Debug.Log("Resetting Data");
+        // Used when user has signed-out
+        Data resetData = new Data();
+        resetData.timeHighScore = 0;
+        resetData.endlessHighScore = 0;
+        resetData.isFirstTime = true;
+        resetData.ads = true;
+        LoadToInstance(resetData);
     }
 }

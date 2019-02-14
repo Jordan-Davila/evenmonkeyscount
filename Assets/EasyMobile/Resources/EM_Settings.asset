@@ -55,8 +55,8 @@ MonoBehaviour:
         mIosId: ca-app-pub-7080562633175785~9852089468
         mAndroidId: ca-app-pub-7080562633175785~1060807176
       mDefaultBannerAdId:
-        mIosId: ca-app-pub-3940256099942544/2934735716
-        mAndroidId: ca-app-pub-3940256099942544/2934735716
+        mIosId: ca-app-pub-7080562633175785/4188946667
+        mAndroidId: ca-app-pub-7080562633175785/5714615479
       mDefaultInterstitialAdId:
         mIosId: 
         mAndroidId: 
@@ -296,15 +296,22 @@ MonoBehaviour:
       mContent: 
       mTitle: Privacy Consent
       mToggles: []
-      mActionButtons: []
+      mActionButtons:
+      - id: 
+        title: 
+        interactable: 0
+        titleColor: {r: 0, g: 0, b: 0, a: 0}
+        backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+        uninteractableTitleColor: {r: 0, g: 0, b: 0, a: 0}
+        uninteractableBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
     mConsentDialogComposerSettings:
       mToggleSelectedIndex: 0
       mButtonSelectedIndex: 0
       mEnableCopyPasteMode: 0
   mRatingRequestSettings:
     mDefaultRatingDialogContent:
-      mTitle: Rate $PRODUCT_NAME
-      mMessage: How would you rate $PRODUCT_NAME?
+      mTitle: Rate Even Monkeys Can Count
+      mMessage: How would you rate Even Monkeys Can Count?
       mLowRatingMessage: That's bad. Would you like to give us some feedback instead?
       mHighRatingMessage: Awesome! Let's do it!
       mPostponeButtonText: Not Now
@@ -313,8 +320,8 @@ MonoBehaviour:
       mCancelButtonText: Cancel
       mFeedbackButtonText: Send Feedback
     mMinimumAcceptedStars: 4
-    mSupportEmail: 
-    mIosAppId: 
+    mSupportEmail: hi@jordandavila.com
+    mIosAppId: 1450755670
     mAnnualCap: 12
     mDelayAfterInstallation: 10
     mCoolingOffPeriod: 10
@@ -323,5 +330,5 @@ MonoBehaviour:
   mIsIAPModuleEnable: 1
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
-  mActiveModuleIndex: 2
-  mIsSelectingModule: 0
+  mActiveModuleIndex: 5
+  mIsSelectingModule: 1

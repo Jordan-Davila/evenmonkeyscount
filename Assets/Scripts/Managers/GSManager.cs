@@ -6,12 +6,10 @@ using System.Collections;
 public class GSManager : MonoBehaviour 
 {
     public string screenshotPath;
-    private DataManager data;
 
     private void Awake() 
     {
         GameServices.ManagedInit();
-        data = Object.FindObjectOfType<DataManager>();
     }
 
     void OnEnable()
@@ -31,7 +29,6 @@ public class GSManager : MonoBehaviour
     void OnUserLoginSucceeded()
     {
         Debug.Log("User logged in successfully.");
-        data.OpenSavedGame();
     }
 
     void OnUserLoginFailed()
