@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4071414152876164}
   - component: {fileID: 114989536422537952}
-  - component: {fileID: 210261260984268346}
   m_Layer: 0
   m_Name: Dot
   m_TagString: Untagged
@@ -264,16 +263,6 @@ MonoBehaviour:
   number: 0
   color: {r: 0.11764706, g: 0.12156863, b: 0.16078432, a: 1}
   circle: {fileID: 212892166201127402}
---- !u!210 &210261260984268346
-SortingGroup:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1223920163764092}
-  m_Enabled: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
 --- !u!210 &210581899270195512
 SortingGroup:
   m_ObjectHideFlags: 1

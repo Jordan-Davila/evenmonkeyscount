@@ -40,6 +40,15 @@ public class Dot : MonoBehaviour
         return sequence;
     }
 
+    public Sequence DestroyFall(float duration, float delay = 0, TweenCallback action = null)
+    {
+        sequence = DOTween.Sequence();
+        sequence.PrependInterval(delay);
+        sequence.Append(transform.DOMove(new Vector3(x, -10, 0), duration).SetEase(Ease.InOutBounce));
+        sequence.OnComplete(() => Destroy(gameObject));
+        return sequence;
+    }
+
     public void SetCordinates(int xIndex, int yIndex)
     {
         this.x = xIndex;

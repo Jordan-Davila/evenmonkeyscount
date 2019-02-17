@@ -9,14 +9,17 @@ public class GameManager : MonoBehaviour
     [Header("Game Properties")]
     public GameState gameState;
     public GameMode gameMode;
+    public float maxTime;
+    public float currentTime;
+
+    [Header("Save Data")]
     public int score;
     public int timeHighScore;
     public int endlessHighScore;
-    public bool ads;
-    public float maxTime;
-    public float currentTime;
-    public bool isFirstTime = true;
     public int selectedTheme = 0;
+    public bool ads;
+    public bool isFirstTime = true;
+
 
     [Header("Themes")]
     public ThemeProperties[] themes;
@@ -34,13 +37,15 @@ public class GameManager : MonoBehaviour
         board = Object.FindObjectOfType<BoardManager>();
         ui = Object.FindObjectOfType<UIManager>();
         
+        DOTween.Init().SetCapacity(200, 125);
+        // DOTween.SetTweensCapacity(200, 125);
         // Init EM runtime if needed (useful in case only this scene is built).
         if (!RuntimeManager.IsInitialized()) RuntimeManager.Init();
     }
  
     private void Start() 
     {
-        ui.menuUI.ToggleMenu().Play();
+        // ui.menuUI.ToggleMenu().Play();
         currentTime = maxTime;
     }
  
@@ -53,7 +58,7 @@ public class GameManager : MonoBehaviour
                 StartTimer();
  
                 if (currentTime < 0)
-                    GameOver("A Monkey Can Count Better");
+                    GameOver("Monkeys Can\nCount Better");
             }                
              
         }
@@ -85,7 +90,7 @@ public class GameManager : MonoBehaviour
         SwitchGameMode(mode);
 
         ui.UpdateGameUI();
-        board.FillBoard();
+        board.FillBoard().Play();
     }
  
     public void GameOver(string title)
@@ -116,14 +121,14 @@ public class GameManager : MonoBehaviour
         SwitchGameState(GameState.GAMESTART);
         Reset();
         ui.UpdateGameUI();
-        board.FillBoard();
+        board.EmptyBoard().Play();
+        board.FillBoard().SetDelay(0.4f).Play();
     }
  
     public void Reset()
     {
         score = 0;
         currentTime = maxTime;
-        board.EmptyBoard();
     }
  
     public void StartTimer()

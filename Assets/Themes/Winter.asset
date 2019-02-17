@@ -9,14 +9,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a11842fdf1fa841aa86f277a4aac0480, type: 3}
-  m_Name: Dark
+  m_Name: Winter
   m_EditorClassIdentifier: 
-  themeName: Dark
-  description: Default Dark Theme
-  backgroundImage: {fileID: 0}
-  thumbnailImage: {fileID: 0}
-  backgroundColor: {r: 0.12941177, g: 0.16862746, b: 0.21568628, a: 1}
-  thumbnailColor: {r: 0.12941177, g: 0.16862746, b: 0.21568628, a: 1}
+  themeName: Winter
+  description: 
+  backgroundImage: {fileID: 21300000, guid: 1292a18166969487ea8aad3bb4d41d69, type: 3}
+  thumbnailImage: {fileID: 21300000, guid: c847f7493cdce4275880bdcd9a04a1c6, type: 3}
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
+  thumbnailColor: {r: 1, g: 1, b: 1, a: 1}
   Dots:
   - name: 'Dot #1'
     number: 1

@@ -6,7 +6,9 @@ public class ThemeProperties : ScriptableObject
     public string themeName;
     public string description;
     public Sprite backgroundImage;
+    public Sprite thumbnailImage;
     public Color backgroundColor;
+    public Color thumbnailColor;
     public DotProperties[] Dots = new DotProperties[20];
 
     private void OnEnable() 

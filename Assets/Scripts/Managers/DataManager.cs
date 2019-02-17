@@ -32,7 +32,7 @@ public class DataManager : MonoBehaviour
         if (PlayerPrefs.HasKey("savedata"))
             LoadData();
         else
-            LoadData();
+            SaveData();
     }
 
     public void SaveData()

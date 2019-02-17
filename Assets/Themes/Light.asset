@@ -11,88 +11,90 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a11842fdf1fa841aa86f277a4aac0480, type: 3}
   m_Name: Light
   m_EditorClassIdentifier: 
-  themeName: 
+  themeName: Light
   description: 
   backgroundImage: {fileID: 0}
-  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  thumbnailImage: {fileID: 0}
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
+  thumbnailColor: {r: 1, g: 1, b: 1, a: 1}
   Dots:
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #1'
+    number: 1
+    color: {r: 0.3921569, g: 0.44705886, b: 0.63529414, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #2'
+    number: 2
+    color: {r: 0.63529414, g: 0.5058824, b: 0.7176471, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #3'
+    number: 3
+    color: {r: 1, g: 0.8352941, b: 0.5176471, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #4'
+    number: 4
+    color: {r: 0.9843137, g: 0.16078432, b: 0.31764707, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #5'
+    number: 5
+    color: {r: 0.53333336, g: 0.7960785, b: 0.65882355, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #6'
+    number: 6
+    color: {r: 0.9568628, g: 0.47058827, b: 0.6666667, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #7'
+    number: 7
+    color: {r: 0.24313727, g: 0.6666667, b: 0.81568635, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #8'
+    number: 8
+    color: {r: 0, g: 0.827451, b: 0.6862745, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #9'
+    number: 9
+    color: {r: 0.9764706, g: 0.28627452, b: 0.2509804, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #10'
+    number: 10
+    color: {r: 0.101960786, g: 0.7921569, b: 0.8784314, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #11'
+    number: 11
+    color: {r: 0.9764706, g: 0.7254902, b: 0.42352942, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #12'
+    number: 12
+    color: {r: 0.43137255, g: 0.6039216, b: 0.64705884, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #13'
+    number: 13
+    color: {r: 0.62352943, g: 0.2509804, b: 0.8901961, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #14'
+    number: 14
+    color: {r: 0.84705883, g: 0.28235295, b: 0.21960784, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #15'
+    number: 15
+    color: {r: 0.45882353, g: 0.7019608, b: 0.12156863, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #16'
+    number: 16
+    color: {r: 0.21960784, g: 0.6392157, b: 0.627451, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #17'
+    number: 17
+    color: {r: 0.81960785, g: 0.827451, b: 0.11372549, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #18'
+    number: 18
+    color: {r: 0.09019608, g: 0.6901961, b: 0.57254905, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #19'
+    number: 19
+    color: {r: 0.7647059, g: 0.23529412, b: 0.20392157, a: 1}
     dotType: 0
-  - name: 
-    number: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - name: 'Dot #20'
+    number: 20
+    color: {r: 0.078431375, g: 0.047058824, b: 0.101960786, a: 1}
     dotType: 0

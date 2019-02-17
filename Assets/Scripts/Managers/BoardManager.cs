@@ -12,6 +12,7 @@ public class BoardManager : MonoBehaviour
     public int width;
     public int height;
     public int borderSize;
+    public bool isMoving = false;
 
     [Header("Prefabs")]
     public GameObject tilePrefab;
@@ -77,6 +78,30 @@ public class BoardManager : MonoBehaviour
             DrawConnections(connections);
         }
     }
+    public void SetupBoard()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                GameObject tile = Instantiate(tilePrefab, new Vector3(x, y, 0), Quaternion.identity) as GameObject;
+                tile.name = "Tile [" + x + "," + y + "]";
+                AllTiles[x, y] = tile.GetComponent<Tile>();
+                tile.transform.parent = board.transform;
+
+                // Initialize Tile Component values
+                AllTiles[x, y].Init(x, y);
+            }
+        }
+    }
+    public void SetupCamera()
+    {
+        Camera.main.transform.position = new Vector3((float)(width - 1) / 2f, (float)(height - 1) / 2f, -10f);
+        float aspectRatio = (float)Screen.width / (float)Screen.height;
+        float verticalSize = (float)height / 2f + (float)borderSize;
+        float horizontalSize = ((float)width / 2f + (float)borderSize) / aspectRatio;
+        Camera.main.orthographicSize = (verticalSize > horizontalSize) ? verticalSize : horizontalSize;
+    }
     private void ReturnLine(LineRenderer line)
     {
         line.startColor = Color.clear;
@@ -129,32 +154,6 @@ public class BoardManager : MonoBehaviour
         }
         return Camera.main.ScreenToWorldPoint(screen);
     }
-    public void SetupBoard()
-    {
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                GameObject tile = Instantiate(tilePrefab, new Vector3(x, y, 0), Quaternion.identity) as GameObject;
-                tile.name = "Tile [" + x + "," + y + "]";
-                AllTiles[x, y] = tile.GetComponent<Tile>();
-                tile.transform.parent = board.transform;
-
-                // Initialize Tile Component values
-                AllTiles[x, y].Init(x, y);
-            }
-        }
-
-    }
-    public void SetupCamera()
-    {
-        Camera.main.transform.position = new Vector3((float)(width - 1) / 2f, (float)(height - 1) / 2f, -10f);
-        float aspectRatio = (float)Screen.width / (float)Screen.height;
-        float verticalSize = (float)height / 2f + (float)borderSize;
-        float horizontalSize = ((float)width / 2f + (float)borderSize) / aspectRatio;
-        Camera.main.orthographicSize = (verticalSize > horizontalSize) ? verticalSize : horizontalSize;
-    }
     private DotProperties GetRandomDot()
     {
         return gm.themes[gm.selectedTheme].Dots[GetRandomIndex()];
@@ -179,6 +178,10 @@ public class BoardManager : MonoBehaviour
     {
         return gm.themes[gm.selectedTheme].Dots[number - 1];
     }
+    public Dot GetDot(Tile tile)
+    {
+        return AllDots[tile.x, tile.y];
+    }
     private Dot PlaceDotOnBoard(int x, int y, DotProperties props, TweenCallback action = null)
     {
         GameObject randomDot = Instantiate(dotPrefab, new Vector3(x, y, 0), Quaternion.identity) as GameObject;
@@ -190,48 +193,77 @@ public class BoardManager : MonoBehaviour
         AllDots[x, y].Init(x, y, props.number, props.color);
         return AllDots[x,y];
     }
-    public void FillBoard()
+    public Sequence FillBoard()
     {
+        sequence = DOTween.Sequence();
+        isMoving = true;
+
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                PlaceDotOnBoard(x, y, GetRandomDot())
+
+                sequence.Insert(0,
+                    PlaceDotOnBoard(x, y, GetRandomDot())
                     .SpawnFall(0.4f)
                     .SetDelay((0.075f * y) + 0.05f)
-                    .OnComplete(()=>sound.Play("pop"))
-                    .Play();
+                    .OnStart(() => sound.Play("pop"))
+                    .Play()
+                );
+                
             }
         }
+
+        sequence.OnComplete(() => {isMoving = false; });
+        return sequence;
+    }
+    public Sequence EmptyBoard()
+    {
+        sequence = DOTween.Sequence();
+        isMoving = true;
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                sequence.Insert(0,
+                    AllDots[x, y].DestroyFall(0.4f, (Random.Range(0.075f, 0.1f) * y) + 0.05f).Play()
+                );
+            }
+        }
+
+        sequence.OnComplete(() => { isMoving = false; });
+        return sequence;
     }
     private void FillEmptyTiles()
     {
+        sequence = DOTween.Sequence();
+        isMoving = true;
+
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
                 if (AllDots[x, y] == null)
                 {
-                    PlaceDotOnBoard(x, y, GetRandomDot()).SpawnFall(0.4f, 0.0f).Play();
+                    sequence.Insert(0,
+                        PlaceDotOnBoard(x, y, GetRandomDot()).SpawnFall(0.4f, 0.0f).Play()
+                    );
                 }
             }
         }
+
+        sequence.OnComplete(() => { 
+            isMoving = false;
+            CanMove();
+        });
+        sequence.Play();
     }
-    public void EmptyBoard()
-    {
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                Destroy(AllDots[x, y].gameObject);
-            }
-        }
-    }
-    public void HandleDotConnections(Tile tile)
+     public void HandleDotConnections(Tile tile)
     {
         // If player hasn't started playing
         if (gm.IsGameState(GameState.GAMESTART))
-            gm.SwitchGameState(GameState.PLAYING);
+            gm.SwitchGameState(GameState.PLAYING);      
 
         bool isValid = false;
 
@@ -265,12 +297,9 @@ public class BoardManager : MonoBehaviour
 
         return false;
     }
-    public Dot GetDot(Tile tile)
-    {
-        return AllDots[tile.x, tile.y];
-    }
     public void HandleDotRelease()
     {
+        if (isMoving) return;
         // If there aren't enough tiles, then just exit
         if (ActiveTiles.Count < 2) return;
 
@@ -281,8 +310,8 @@ public class BoardManager : MonoBehaviour
         sequence = DOTween.Sequence();
 
         // Add Scores and Time
-        gm.AddScore(GetScoreByNumber(GetDot(ActiveTiles[targetIndex]).number));
-        gm.AddTime(GetDot(ActiveTiles[targetIndex]).number);
+        gm.AddScore(GetScoreByNumber(GetDot(ActiveTiles[targetIndex]).number+1));
+        gm.AddTime(GetDot(ActiveTiles[targetIndex]).number+1);
 
         // 1. Mark all connected dots
         for(int i = 0; i < targetIndex; i++)
@@ -299,16 +328,18 @@ public class BoardManager : MonoBehaviour
             {
                 collapseSequence = DOTween.Sequence();
                 CollapseColumn(dotsRemovedInColumns);
-                collapseSequence.OnComplete(() => FillEmptyTiles());
+                collapseSequence.OnComplete(() => {
+                    FillEmptyTiles();
+                });
                 collapseSequence.Play();
             }).Play();
         }).Play();
 
         // Sound
-        sound.Play((GetDot(ActiveTiles[targetIndex]).number >= 6) ? "mergePlus" : "merge");
+        sound.Play((GetDot(ActiveTiles[targetIndex]).number+1 >= 6) ? "mergePlus" : "merge");
 
         // Achievements
-        gm.HandleAchivements(GetDot(ActiveTiles[targetIndex]).number);
+        gm.HandleAchivements(GetDot(ActiveTiles[targetIndex]).number+1);
 
         // Clean Up
         ActiveTiles.Clear();
@@ -339,6 +370,41 @@ public class BoardManager : MonoBehaviour
     }
     public int GetScoreByNumber(int number)
     {
-        return Mathf.RoundToInt((number ^ 2) * (number / 2));
+        return Mathf.RoundToInt((number ^ 2) * (number / 2)) + 1;
+    }
+    public void CanMove()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (AllDots[x, y].number == 1)
+                {
+                    for (int x2 = 0; x2 < width; x2++)
+                    {
+                        for (int y2 = 0; y2 < height; y2++)
+                        {
+                            // ABS because we don't care about direction, easier compare
+                            var rowDiff = Mathf.Abs(y2 - y);
+                            var columnDiff = Mathf.Abs(x2 - x);
+
+                            // Not directly next to dot // If Vertical Horizontal and Diagnol
+                            if (columnDiff <= 1 && rowDiff <= 1)
+                            {
+                                if (AllDots[x2, y2].number == 2 || AllDots[x2, y2].number == 1)
+                                {
+                                    if (x != x2 || y != y2)
+                                    {
+                                        return;    
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        gm.GameOver("You ran\n out of Moves");
     }
 }
