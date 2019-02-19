@@ -10,8 +10,12 @@ public class Data
 {
     public int timeHighScore;
     public int endlessHighScore;
+    public int totalCoins;
     public bool ads;
     public bool isFirstTime;
+    public int selectedTheme;
+    public bool themePack;
+    public bool[] purchasedThemes;
     public string hash;
 }
 
@@ -67,11 +71,16 @@ public class DataManager : MonoBehaviour
     {
         gm.timeHighScore = loadedData.timeHighScore;
         gm.endlessHighScore = loadedData.endlessHighScore;
+        gm.totalCoins = loadedData.totalCoins;
         gm.isFirstTime = loadedData.isFirstTime;
+        gm.themePack = loadedData.themePack;
+        gm.purchasedThemes = loadedData.purchasedThemes;
+        gm.selectedTheme = loadedData.selectedTheme;
         gm.ads = loadedData.ads;
 
         // Update GUIS
         ui.UpdateMenuUI();
+        ui.UpdateThemeBackground();
     }
 
     public string InstanceToJson()
@@ -79,7 +88,11 @@ public class DataManager : MonoBehaviour
         Data newDataToSave = new Data();
         newDataToSave.timeHighScore = gm.timeHighScore;
         newDataToSave.endlessHighScore = gm.endlessHighScore;
+        newDataToSave.totalCoins = gm.totalCoins;
         newDataToSave.isFirstTime = gm.isFirstTime;
+        newDataToSave.themePack = gm.themePack;
+        newDataToSave.purchasedThemes = gm.purchasedThemes;
+        newDataToSave.selectedTheme = gm.selectedTheme;
         newDataToSave.ads = gm.ads;
 
         newDataToSave.hash = HashData(newDataToSave);

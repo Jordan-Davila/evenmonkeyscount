@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Name: Dark
   m_EditorClassIdentifier: 
   themeName: Dark
-  description: Default Dark Theme
+  coins: 0
+  isSelected: 0
+  hasPurchased: 0
   backgroundImage: {fileID: 0}
   thumbnailImage: {fileID: 0}
   backgroundColor: {r: 0.12941177, g: 0.16862746, b: 0.21568628, a: 1}

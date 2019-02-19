@@ -34,6 +34,9 @@ public class IAPManager : MonoBehaviour
             case EM_IAPConstants.Product_No_Ads:
                 gm.RemoveAds();
                 break;
+            case EM_IAPConstants.Product_Theme_Pack:
+                gm.UnlockAllThemes();
+                break;
         }
     }
 

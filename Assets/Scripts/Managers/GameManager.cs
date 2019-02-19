@@ -11,15 +11,18 @@ public class GameManager : MonoBehaviour
     public GameMode gameMode;
     public float maxTime;
     public float currentTime;
+    public int perGameCoins = 0;
 
     [Header("Save Data")]
     public int score;
     public int timeHighScore;
     public int endlessHighScore;
+    public int totalCoins = 0;
     public int selectedTheme = 0;
+    public bool themePack = false;
     public bool ads;
-    public bool isFirstTime = true;
-
+    public bool isFirstTime = true; // for tutorial
+    public bool[] purchasedThemes;
 
     [Header("Themes")]
     public ThemeProperties[] themes;
@@ -32,13 +35,20 @@ public class GameManager : MonoBehaviour
  
     private void Awake()
     {
+        PlayerPrefs.DeleteAll();
         gs = Object.FindObjectOfType<GSManager>();
         data = Object.FindObjectOfType<DataManager>();
         board = Object.FindObjectOfType<BoardManager>();
         ui = Object.FindObjectOfType<UIManager>();
-        
+
+        // Setup Purchase Thems
+        purchasedThemes = new bool[themes.Length];
+        purchasedThemes[0] = true;
+
+        // Set Tween
         DOTween.Init().SetCapacity(200, 125);
         // DOTween.SetTweensCapacity(200, 125);
+
         // Init EM runtime if needed (useful in case only this scene is built).
         if (!RuntimeManager.IsInitialized()) RuntimeManager.Init();
     }
@@ -47,6 +57,9 @@ public class GameManager : MonoBehaviour
     {
         // ui.menuUI.ToggleMenu().Play();
         currentTime = maxTime;
+
+        // Check if Purchased ThemePack
+        if (themePack) UnlockAllThemes(); 
     }
  
     private void Update() 
@@ -58,7 +71,7 @@ public class GameManager : MonoBehaviour
                 StartTimer();
  
                 if (currentTime < 0)
-                    GameOver("Monkeys Can\nCount Better");
+                    GameOver("Out of Time");
             }                
              
         }
@@ -89,14 +102,15 @@ public class GameManager : MonoBehaviour
         SwitchGameState(GameState.GAMESTART);
         SwitchGameMode(mode);
 
-        ui.UpdateGameUI();
+        // ui.UpdateGameUI();
         board.FillBoard().Play();
     }
  
     public void GameOver(string title)
     {
         SwitchGameState(GameState.GAMEOVER);
- 
+
+        totalCoins += perGameCoins;
         int highscore = (IsGameMode(GameMode.TIME)) ? timeHighScore : endlessHighScore;
  
         if (score > highscore)
@@ -111,16 +125,16 @@ public class GameManager : MonoBehaviour
 
         // Leaderboard
         gs.ReportToLeaderboard((IsGameMode(GameMode.TIME) ? EM_GameServicesConstants.Leaderboard_Time : EM_GameServicesConstants.Leaderboard_Endless), score);
-
+        
         // Update UI Animate
-        ui.UpdateGameOverUI(score > highscore, score, highscore, title);
+        ui.UpdateGameOverUI(score > highscore, score, highscore, perGameCoins, title);
     }
  
     public void Restart()
     {
         SwitchGameState(GameState.GAMESTART);
         Reset();
-        ui.UpdateGameUI();
+        // ui.UpdateGameUI();
         board.EmptyBoard().Play();
         board.FillBoard().SetDelay(0.4f).Play();
     }
@@ -129,6 +143,7 @@ public class GameManager : MonoBehaviour
     {
         score = 0;
         currentTime = maxTime;
+        perGameCoins = 0;
     }
  
     public void StartTimer()
@@ -162,6 +177,32 @@ public class GameManager : MonoBehaviour
     {
         score += points;
         ui.gameUI.UpdateScore(score);
+    }
+
+    public void AddCoins(int coins)
+    {
+        perGameCoins += coins;
+    }
+
+    public void SaveData()
+    {
+        data.SaveData();
+    }
+
+    public void UnlockAllThemes()
+    {
+        themePack = true;
+
+        for (int i = 0; i < purchasedThemes.Length; i++)
+        {
+            purchasedThemes[i] = true;
+            themes[i].hasPurchased = true;
+        }      
+
+        ui.menuUI.themesPackButton.SetActive(false);
+        ui.menuUI.UpdateThemePackText("Theme Pack is Active\n All themes are unlock");
+        // ui,menuUI.theme
+        SaveData();
     }
 
     public void HandleAchivements(int newDotNumber)

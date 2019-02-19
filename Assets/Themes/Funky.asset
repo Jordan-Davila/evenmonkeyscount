@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Name: Funky
   m_EditorClassIdentifier: 
   themeName: Funky
-  description: 
+  coins: 2000
+  isSelected: 0
+  hasPurchased: 0
   backgroundImage: {fileID: 21300000, guid: cc5732189aa9e425fb8344c1c6fc8e57, type: 3}
   thumbnailImage: {fileID: 21300000, guid: e66695687468f4a999ab34c0f839af39, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}

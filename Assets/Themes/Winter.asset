@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Name: Winter
   m_EditorClassIdentifier: 
   themeName: Winter
-  description: 
+  coins: 2000
+  isSelected: 0
+  hasPurchased: 0
   backgroundImage: {fileID: 21300000, guid: 1292a18166969487ea8aad3bb4d41d69, type: 3}
   thumbnailImage: {fileID: 21300000, guid: c847f7493cdce4275880bdcd9a04a1c6, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}

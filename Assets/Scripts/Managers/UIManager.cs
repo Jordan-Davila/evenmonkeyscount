@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
     private AdsManager banner;
     private AudioManager sound;
     private BoardManager board;
+    private ThemeManager theme;
     private Sequence sequence;
 
     private void Awake() 
@@ -41,6 +42,7 @@ public class UIManager : MonoBehaviour
         gm = Object.FindObjectOfType<GameManager>();
         board = Object.FindObjectOfType<BoardManager>();
         sound = Object.FindObjectOfType<AudioManager>();
+        theme = Object.FindObjectOfType<ThemeManager>();
 
         // UI Objects
         menuUI = MenuUI.GetComponent<MenuUI>();
@@ -55,12 +57,10 @@ public class UIManager : MonoBehaviour
     {
         // Refresh UI
         UpdateGameUI();
+        UpdateMenuUI();
 
         // Get Canvas Width
         canvasWidth = canvas.rect.width;
-
-        // Display All Themes
-        menuUI.DisplayAllThemes(gm.themes);
 
         // Start Positions
         gameUI.StartPosition(canvasWidth);
@@ -95,11 +95,13 @@ public class UIManager : MonoBehaviour
             sequence.Join(gameUI.ToggleGame());
             sequence.OnComplete(() => { gm.GameStart(gm.gameMode); banner.ShowBannerAd(); });
         }
-        
+
+        UpdateGameUI();
         sequence.Play();   
     }
     public void GoToMenu()
     {
+        UpdateMenuUI();
         sequence = DOTween.Sequence();
         
         sequence.Prepend((gm.gameState == GameState.PAUSED) ? gameUI.TogglePauseMenu() : gameUI.ToggleGameOver());
@@ -111,7 +113,6 @@ public class UIManager : MonoBehaviour
         banner.DestroyBannerAd();
         gm.Reset();
     }
-
     public void RestartGame()
     {
         sequence = DOTween.Sequence();
@@ -121,53 +122,58 @@ public class UIManager : MonoBehaviour
             banner.ShowBannerAd();
             gm.Restart();
         });
+
+        UpdateGameUI();
         sequence.Play();
     }
     public void TogglePause()
     {
-        if (board.isMoving) return;
-
-        gm.SwitchGameState((!gameUI.pauseMenu.activeSelf) ? GameState.PAUSED : GameState.PLAYING);
         sound.Play((gameUI.pauseMenu.activeSelf) ? "pop_out" : "pop_in");
+        gm.SwitchGameState((!gameUI.pauseMenu.activeSelf) ? GameState.PAUSED : GameState.PLAYING);
         gameUI.TogglePauseMenu().Play();
+    }
+    public void UpdateThemeBackground()
+    {
+        gameUI.UpdateBackground(gm.themes[gm.selectedTheme]);
     }
     public void UpdateGameUI()
     {
-        // Update UI
         if (gm.IsGameMode(GameMode.TIME))
         {
+            gameUI.timeCircle.gameObject.SetActive(true);
             gameUI.UpdateTime(gm.currentTime);
             gameUI.UpdateScore(gm.score);
             gameUI.UpdateHighScore(gm.timeHighScore);
         }
         else
         {
-            gameUI.UpdateTimeEndless();
+            gameUI.timeCircle.gameObject.SetActive(false);
             gameUI.UpdateScore(gm.score);
             gameUI.UpdateHighScore(gm.endlessHighScore);
         }
     }
-    public void UpdateGameOverUI(bool isNewScore, int newScore, int highscore, string title)
+    public void UpdateGameOverUI(bool isNewScore, int newScore, int highscore, int coins, string title)
     {
         if (isNewScore)
         {
+            sound.Play("highscore");
             gameUI.UpdateGameOverTitle("New High\nScore!");
             gameUI.UpdateGameOverScore(newScore.ToString());
             gameUI.UpdateHighScore(newScore);
             gameUI.gameOverShare.SetActive(true);
             gameUI.stars.SetActive(true);
-            sound.Play("highscore");
         }
         else
         {
+            sound.Play("gameover");
             gameUI.UpdateGameOverTitle(title);
             gameUI.UpdateGameOverScore(newScore + "\n<size=45%><color=#EF6673>best " + highscore);
             gameUI.UpdateHighScore(highscore);
             gameUI.gameOverShare.SetActive(false);
             gameUI.stars.SetActive(false);
-            sound.Play("gameover");
         }
 
+        gameUI.UpdateGameOverCoins(coins);
         gameUI.ToggleGameOver().Play();
     }
     public void UpdateMenuUI()
@@ -177,6 +183,9 @@ public class UIManager : MonoBehaviour
             menuUI.noAds.gameObject.SetActive(false);
             menuUI.btnNoAds.gameObject.SetActive(false);
         }
+
+        menuUI.UpdateCoins(gm.totalCoins);
+        menuUI.UpdateScore((gm.timeHighScore >= gm.endlessHighScore) ? gm.timeHighScore : gm.endlessHighScore);
     }
     public void ToggleNoAds()
     {
@@ -193,6 +202,14 @@ public class UIManager : MonoBehaviour
         sound.Play((menuUI.noAds.activeSelf) ? "pop_out" : "pop_in");
         menuUI.ToggleOptionsMenu().Play();
     }
+    public void DisplayThemesConfirmation(ThemeProperties theme)
+    {
+        menuUI.DisplayThemesConfirmationPanel(theme).Play();
+    }
+    public void HideThemesConfirmation()
+    {
+        menuUI.HideThemesConfirmationPanel().Play();
+    }
     public void HidePreloadAfterLoading()
     {
         sequence = DOTween.Sequence();
@@ -200,6 +217,29 @@ public class UIManager : MonoBehaviour
         sequence.Append(preloadUI.Outro());
         sequence.Append(menuUI.ToggleMenu());
         sequence.Play();
+    }
+    public void BuyTheme(ThemeProperties selectedTheme)
+    {
+        Debug.LogWarning("Clicked Buy " + selectedTheme.name);
+        if (gm.totalCoins >= selectedTheme.coins)
+        {
+            selectedTheme.hasPurchased = true;
+            theme.SelectTheme(selectedTheme);
+            theme.UpdateUI();
+            gm.totalCoins -= selectedTheme.coins;
+            UpdateMenuUI();
+            HideThemesConfirmation();
+
+            for (int i = 0; i < gm.themes.Length; i++)
+            {
+                if (gm.themes[i] == selectedTheme)
+                    gm.purchasedThemes[i] = true;
+            }
+
+            gm.SaveData();
+        }
+        else
+            menuUI.themesConfirmationNeedMoreCoins.DOFade(1f, 0.3f);
     }
     public void ToggleMusic()
     {

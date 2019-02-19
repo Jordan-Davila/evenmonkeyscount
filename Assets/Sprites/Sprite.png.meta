@@ -22,7 +22,7 @@ TextureImporter:
     21300034: info_theme_name
     21300036: info_theme_selected
     21300038: btn_tutorial
-    21300040: btn_signout
+    21300040: btn_disconnect
     21300042: btn_off
     21300044: info_bar
     21300046: btn_buy_themes
@@ -36,6 +36,12 @@ TextureImporter:
     21300062: btn_buy_noads
     21300064: btn_play_endless
     21300066: btn_restore
+    21300068: btn_connect
+    21300070: panel_buy_theme
+    21300072: btn_get_theme
+    21300074: btn_nevermind
+    21300076: demo_small
+    21300078: demo_square
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -144,9 +150,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1226
-        width: 1165
-        height: 1467
+        y: 1221
+        width: 1191
+        height: 1472
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,7 +171,7 @@ TextureImporter:
         serializedVersion: 2
         x: 1200
         y: 1734
-        width: 1164
+        width: 1178
         height: 961
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -264,9 +270,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 837
-        y: 926
+        y: 918
         width: 272
-        height: 275
+        height: 283
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -483,9 +489,9 @@ TextureImporter:
       name: info_theme_name
       rect:
         serializedVersion: 2
-        x: 282
+        x: 276
         y: 651
-        width: 264
+        width: 265
         height: 134
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -503,10 +509,10 @@ TextureImporter:
       name: info_theme_selected
       rect:
         serializedVersion: 2
-        x: 549
-        y: 651
-        width: 264
-        height: 134
+        x: 561
+        y: 641
+        width: 160
+        height: 170
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -540,7 +546,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: btn_signout
+      name: btn_disconnect
       rect:
         serializedVersion: 2
         x: 1444
@@ -584,9 +590,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 5
-        y: 440
+        y: 445
         width: 684
-        height: 176
+        height: 186
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -663,8 +669,8 @@ TextureImporter:
       name: btn_play_time
       rect:
         serializedVersion: 2
-        x: 810
-        y: 251
+        x: 1125
+        y: 252
         width: 611
         height: 193
       alignment: 0
@@ -683,8 +689,8 @@ TextureImporter:
       name: btn_exit
       rect:
         serializedVersion: 2
-        x: 1444
-        y: 251
+        x: 1760
+        y: 253
         width: 607
         height: 193
       alignment: 0
@@ -703,10 +709,10 @@ TextureImporter:
       name: star_left
       rect:
         serializedVersion: 2
-        x: 2097
-        y: 277
-        width: 204
-        height: 208
+        x: 256
+        y: 13
+        width: 179
+        height: 159
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -723,10 +729,10 @@ TextureImporter:
       name: logo
       rect:
         serializedVersion: 2
-        x: 10
-        y: 177
-        width: 450
-        height: 222
+        x: 25
+        y: 199
+        width: 453
+        height: 225
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -743,10 +749,10 @@ TextureImporter:
       name: star_right
       rect:
         serializedVersion: 2
-        x: 557
-        y: 230
-        width: 199
-        height: 188
+        x: 26
+        y: 12
+        width: 169
+        height: 180
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -815,6 +821,126 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6b93ac65881a9424ca0be02f6f85e999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_connect
+      rect:
+        serializedVersion: 2
+        x: 502
+        y: 241
+        width: 605
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15a0f4f576aca4131a7967e8dec2bc0d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: panel_buy_theme
+      rect:
+        serializedVersion: 2
+        x: 2392
+        y: 1844
+        width: 853
+        height: 853
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 238a64f4f756b4144af569cfc94b0cda
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_get_theme
+      rect:
+        serializedVersion: 2
+        x: 2395
+        y: 253
+        width: 607
+        height: 193
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20f992d0f1a1e4daeb009564775b688d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_nevermind
+      rect:
+        serializedVersion: 2
+        x: 2395
+        y: 24
+        width: 606
+        height: 193
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 266e7faad9b184cdfb636aaff2cc1884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demo_small
+      rect:
+        serializedVersion: 2
+        x: 2332
+        y: 920
+        width: 361
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a3d13d0f4e8f4cd2b7ad80bdb2a109c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demo_square
+      rect:
+        serializedVersion: 2
+        x: 2382
+        y: 504
+        width: 360
+        height: 372
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca246a7ae6bd74bbdb5bae214a991b5e
       vertices: []
       indices: 
       edges: []

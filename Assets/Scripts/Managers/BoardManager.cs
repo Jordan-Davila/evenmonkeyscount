@@ -13,11 +13,14 @@ public class BoardManager : MonoBehaviour
     public int height;
     public int borderSize;
     public bool isMoving = false;
+    public float dotSize = 40f;
+    public float dotSpacing = 5f;
 
     [Header("Prefabs")]
     public GameObject tilePrefab;
     public GameObject dotPrefab;
     public GameObject linePrefab;
+    public GameObject lines;
     public GameObject dotManager;
     public GameObject board;
 
@@ -40,7 +43,7 @@ public class BoardManager : MonoBehaviour
         // Time.timeScale = 0.1f;
         gm = Object.FindObjectOfType<GameManager>();
         sound = Object.FindObjectOfType<AudioManager>();
-        linePool = new PrefabPool(linePrefab, board.transform, 5);
+        linePool = new PrefabPool(linePrefab, lines.transform, 5);
     }
     private void Start()
     {
@@ -84,10 +87,13 @@ public class BoardManager : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                GameObject tile = Instantiate(tilePrefab, new Vector3(x, y, 0), Quaternion.identity) as GameObject;
+                // Instantiate
+                GameObject tile = Instantiate(tilePrefab, GetPositionForCoordinates(x, y), Quaternion.identity) as GameObject;
                 tile.name = "Tile [" + x + "," + y + "]";
+
+                // Get Component and Set Parent
                 AllTiles[x, y] = tile.GetComponent<Tile>();
-                tile.transform.parent = board.transform;
+                tile.transform.SetParent(board.transform, false);
 
                 // Initialize Tile Component values
                 AllTiles[x, y].Init(x, y);
@@ -101,6 +107,21 @@ public class BoardManager : MonoBehaviour
         float verticalSize = (float)height / 2f + (float)borderSize;
         float horizontalSize = ((float)width / 2f + (float)borderSize) / aspectRatio;
         Camera.main.orthographicSize = (verticalSize > horizontalSize) ? verticalSize : horizontalSize;
+    }
+    private Vector2 GetPositionForCoordinates(int x, int y)
+    {
+        var adjustedDotSize = dotSize + dotSpacing;
+        var worldPosition = Vector2.zero;
+
+        // Set to "zero position" (bottom left dot position)
+        worldPosition.x = -adjustedDotSize * ((width - 1) / 2f);
+        worldPosition.y = -adjustedDotSize * ((height - 1) / 2f);
+
+        // Add offset from zero position via dot coordinate
+        worldPosition.x += adjustedDotSize * x;
+        worldPosition.y += adjustedDotSize * y;
+
+        return worldPosition;
     }
     private void ReturnLine(LineRenderer line)
     {
@@ -164,9 +185,9 @@ public class BoardManager : MonoBehaviour
         int[] probList;
 
         if (gm.IsGameMode(GameMode.TIME))
-            probList = new int[] { 45, 20, 7 };
+            probList = new int[] { 45, 20, 8 };
         else
-            probList = new int[] { 45, 28, 17 };
+            probList = new int[] { 45, 30, 18 };
 
         if (probability <= probList[2]) return 3;
         if (probability <= probList[1]) return 2;
@@ -184,13 +205,13 @@ public class BoardManager : MonoBehaviour
     }
     private Dot PlaceDotOnBoard(int x, int y, DotProperties props, TweenCallback action = null)
     {
-        GameObject randomDot = Instantiate(dotPrefab, new Vector3(x, y, 0), Quaternion.identity) as GameObject;
+        GameObject randomDot = Instantiate(dotPrefab, GetPositionForCoordinates(x,y), Quaternion.identity) as GameObject;
         randomDot.name = "Dot #" + props.number + " [" + x + "," + y + "]";
-        randomDot.transform.parent = dotManager.transform;
+        randomDot.transform.SetParent(dotManager.transform, false);
 
         // Store Dots Instanceses into 2D Array
         AllDots[x, y] = randomDot.GetComponent<Dot>();
-        AllDots[x, y].Init(x, y, props.number, props.color);
+        AllDots[x, y].Init(x,y,GetPositionForCoordinates(x,y), props.number, props.color);
         return AllDots[x,y];
     }
     public Sequence FillBoard()
@@ -247,7 +268,7 @@ public class BoardManager : MonoBehaviour
                 if (AllDots[x, y] == null)
                 {
                     sequence.Insert(0,
-                        PlaceDotOnBoard(x, y, GetRandomDot()).SpawnFall(0.4f, 0.0f).Play()
+                        PlaceDotOnBoard(x, y, GetRandomDot()).SpawnFall(0.3f, 0.0f).Play()
                     );
                 }
             }
@@ -259,8 +280,10 @@ public class BoardManager : MonoBehaviour
         });
         sequence.Play();
     }
-     public void HandleDotConnections(Tile tile)
+    public void HandleDotConnections(Tile tile)
     {
+        if (isMoving || gm.IsGameState(GameState.GAMEOVER)) return;
+
         // If player hasn't started playing
         if (gm.IsGameState(GameState.GAMESTART))
             gm.SwitchGameState(GameState.PLAYING);      
@@ -299,7 +322,8 @@ public class BoardManager : MonoBehaviour
     }
     public void HandleDotRelease()
     {
-        if (isMoving) return;
+        if (gm.IsGameState(GameState.GAMEOVER)) return;
+
         // If there aren't enough tiles, then just exit
         if (ActiveTiles.Count < 2) return;
 
@@ -312,12 +336,13 @@ public class BoardManager : MonoBehaviour
         // Add Scores and Time
         gm.AddScore(GetScoreByNumber(GetDot(ActiveTiles[targetIndex]).number+1));
         gm.AddTime(GetDot(ActiveTiles[targetIndex]).number+1);
+        gm.AddCoins(ActiveLines.Count);
 
         // 1. Mark all connected dots
         for(int i = 0; i < targetIndex; i++)
         {
             dotsRemovedInColumns[GetDot(ActiveTiles[i]).x]++;
-            sequence.Append(GetDot(ActiveTiles[i]).MergeTo(ActiveTiles[i + 1].x, ActiveTiles[i + 1].y, 0.07f, 0.07f));
+            sequence.Append(GetDot(ActiveTiles[i]).MergeTo(ActiveTiles[i + 1].x, ActiveTiles[i + 1].y, GetPositionForCoordinates(ActiveTiles[i + 1].x, ActiveTiles[i + 1].y), 0.07f, 0.07f));
             AllDots[ActiveTiles[i].x, ActiveTiles[i].y] = null;
         }
 
@@ -326,6 +351,7 @@ public class BoardManager : MonoBehaviour
         sequence.OnComplete(()=>{ 
             PlaceDotOnBoard(targetDot.x, targetDot.y, GetDotByNumber(targetDot.number + 1)).SpawnPop(0.07f, 0, () =>
             {
+                isMoving = true;
                 collapseSequence = DOTween.Sequence();
                 CollapseColumn(dotsRemovedInColumns);
                 collapseSequence.OnComplete(() => {
@@ -358,7 +384,7 @@ public class BoardManager : MonoBehaviour
                     {
                         if (AllDots[x, i] != null)
                         {
-                            collapseSequence.Insert(0, AllDots[x, i].MoveTo(x, y, 0.4f, 0.0f));
+                            collapseSequence.Insert(0, AllDots[x, i].MoveTo(x, y, GetPositionForCoordinates(x, y),0.3f, 0.0f));
                             AllDots[x, y] = AllDots[x, i];
                             AllDots[x, i] = null;
                             break;
@@ -405,6 +431,6 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        gm.GameOver("You ran\n out of Moves");
+        gm.GameOver("Out of Moves");
     }
 }

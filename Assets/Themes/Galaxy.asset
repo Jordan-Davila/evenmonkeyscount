@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Name: Galaxy
   m_EditorClassIdentifier: 
   themeName: Galaxy
-  description: 
+  coins: 2000
+  isSelected: 0
+  hasPurchased: 0
   backgroundImage: {fileID: 21300000, guid: 5ae23241b462644bf910f5ee75f40a17, type: 3}
   thumbnailImage: {fileID: 21300000, guid: 2ea56821a190a4c989adbca0557e6fec, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}

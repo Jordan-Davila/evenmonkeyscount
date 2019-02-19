@@ -4,7 +4,9 @@ using UnityEngine;
 public class ThemeProperties : ScriptableObject
 {
     public string themeName;
-    public string description;
+    public int coins;
+    public bool isSelected;
+    public bool hasPurchased;
     public Sprite backgroundImage;
     public Sprite thumbnailImage;
     public Color backgroundColor;

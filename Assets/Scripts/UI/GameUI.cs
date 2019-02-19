@@ -5,11 +5,8 @@ using TMPro;
 
 public class GameUI : MonoBehaviour 
 {
-    [Header("Board")]
-    public GameObject board;
-    public GameObject dots;
-
 	[Header("Game Stats")]
+    public GameObject timeCircle;
     public TextMeshProUGUI time;
     public TextMeshProUGUI score;
     public TextMeshProUGUI highscore;
@@ -19,6 +16,7 @@ public class GameUI : MonoBehaviour
     public GameObject gameOver;
     public TextMeshProUGUI gameOverTitle;
     public TextMeshProUGUI gameOverScore;
+    public TextMeshProUGUI coins;
     public GameObject gameOverShare;
     public GameObject gameOverScreen;
     public GameObject stars;
@@ -47,12 +45,7 @@ public class GameUI : MonoBehaviour
         else
         {
             sequence.Append(this.gameObject.transform.DOLocalMoveX(canvasWidth, 0.5f).SetEase(Ease.InOutBack));
-            sequence.OnComplete(() => 
-            { 
-                this.gameObject.SetActive(false);
-                board.SetActive(false);
-                dots.SetActive(false);
-            });
+            sequence.OnComplete(() => { this.gameObject.SetActive(false); });
         }
 
         return sequence;
@@ -67,8 +60,6 @@ public class GameUI : MonoBehaviour
             pauseMenu.SetActive(true);
             pauseScreen.SetActive(true);
             sequence.Append(this.gameObject.transform.DOLocalMoveX(-400f, 0.4f).SetEase(Ease.OutBack));
-            sequence.Join(dots.transform.DOMoveX(-5.5f, 0.4f).SetEase(Ease.OutBack));
-            sequence.Join(board.transform.DOMoveX(-5.5f, 0.4f).SetEase(Ease.OutBack));
             sequence.Append(screen.DOFade(0.3f, 0.3f));
         }
         else
@@ -76,8 +67,6 @@ public class GameUI : MonoBehaviour
             sequence.Append(screen.DOFade(0f, 0.3f));
             sequence.AppendCallback(() => pauseScreen.SetActive(false));
             sequence.Append(this.gameObject.transform.DOLocalMoveX(0, 0.4f).SetEase(Ease.InBack));
-            sequence.Join(dots.transform.DOMoveX(0, 0.4f).SetEase(Ease.InBack));
-            sequence.Join(board.transform.DOMoveX(0, 0.4f).SetEase(Ease.InBack));
             sequence.OnComplete(() => pauseMenu.SetActive(false));
         }
 
@@ -113,16 +102,23 @@ public class GameUI : MonoBehaviour
     private void Reset() 
     {
         this.gameObject.SetActive(true);
-        board.SetActive(true);
-        dots.SetActive(true);
     }
-    public void UpdateTime(float value) { time.text = Mathf.RoundToInt(value).ToString(); time.fontSize = 40; }
-    public void UpdateTimeEndless() { time.text = "∞"; time.fontSize = 70; }
-    public void UpdateScore(int value) { score.text = value.ToString(); }
-    public void UpdateHighScore(int value) { highscore.text = value.ToString(); }
-    public void UpdateGameOverTitle(string value) { gameOverTitle.text = value; }
-    public void UpdateGameOverScore(string value) { gameOverScore.text = value; }
-    public void UpdateGameOverHighScore(int value) { gameOverScore.text = value.ToString(); }
+    public void UpdateBackground(ThemeProperties themeProps)
+    {
+        Image image = this.gameObject.GetComponent<Image>();
+
+        // Thumbnail
+        if (themeProps.backgroundImage == null)
+        {
+            image.sprite = null;
+            image.color = themeProps.backgroundColor;
+        }
+        else 
+        {
+            image.color = themeProps.backgroundColor;
+            image.sprite = themeProps.backgroundImage;
+        }
+    }
     public void DisplayAddedTime(int value)
     {
         TextMeshProUGUI text = addedTime.GetComponent<TextMeshProUGUI>();
@@ -138,5 +134,13 @@ public class GameUI : MonoBehaviour
         sequence.Insert(0.3f, text.DOFade(0f, 0.3f));
         sequence.Play();
     }
-
+    public void UpdateTime(float value) { time.text = Mathf.RoundToInt(value).ToString(); time.fontSize = 40; }
+    public void UpdateTimeEndless() { time.text = "∞"; time.fontSize = 70; }
+    public void UpdateScore(int value) { score.text = value.ToString(); }
+    public void UpdateHighScore(int value) { highscore.text = value.ToString(); }
+    public void UpdateGameOverTitle(string value) { gameOverTitle.text = value; }
+    public void UpdateGameOverScore(string value) { gameOverScore.text = value; }
+    public void UpdateGameOverHighScore(int value) { gameOverScore.text = value.ToString(); }
+    public void UpdateGameOverCoins(int value) { coins.text = "+" + value.ToString(); }
+    
 }

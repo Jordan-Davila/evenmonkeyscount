@@ -267,6 +267,17 @@ MonoBehaviour:
       - store: 0
         id: no_ads
       _isEditingAdvanced: 1
+    - _name: Theme Pack
+      _type: 0
+      _id: themePack
+      _price: 2.99
+      _description: Unlock all themes and future themes.
+      _storeSpecificIds:
+      - store: 0
+        id: theme_pack
+      - store: 6
+        id: theme_pack
+      _isEditingAdvanced: 1
   mNotificationSettings:
     mAutoInit: 1
     mAutoInitDelay: 0
@@ -330,5 +341,5 @@ MonoBehaviour:
   mIsIAPModuleEnable: 1
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
-  mActiveModuleIndex: 5
-  mIsSelectingModule: 1
+  mActiveModuleIndex: 1
+  mIsSelectingModule: 0

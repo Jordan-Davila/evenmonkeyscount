@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Name: Light
   m_EditorClassIdentifier: 
   themeName: Light
-  description: 
+  coins: 100
+  isSelected: 0
+  hasPurchased: 0
   backgroundImage: {fileID: 0}
   thumbnailImage: {fileID: 0}
-  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
-  thumbnailColor: {r: 1, g: 1, b: 1, a: 1}
+  backgroundColor: {r: 0.99215686, g: 0.9843137, b: 0.96862745, a: 1}
+  thumbnailColor: {r: 0.99215686, g: 0.9843137, b: 0.96862745, a: 1}
   Dots:
   - name: 'Dot #1'
     number: 1

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class MenuUI : MonoBehaviour 
 {
@@ -12,6 +13,8 @@ public class MenuUI : MonoBehaviour
     public RectTransform btnLeaderboard;
     public RectTransform btnShare;
     public RectTransform btnNoAds;
+    public TextMeshProUGUI bestScore;
+    public TextMeshProUGUI totalCoins;
     
     [Header("No Ads Menu")]
     public GameObject noAds;
@@ -27,8 +30,17 @@ public class MenuUI : MonoBehaviour
     public GameObject themePrefab;
     public GameObject themesScreen;
     public GameObject themesContainer;
+    public GameObject themesConfirmationPanel;
+    public GameObject themesConfirmationScreen;
+    public GameObject themesPackButton;
+    public TextMeshProUGUI themesConfirmationTitle;
+    public TextMeshProUGUI themesConfirmationCoins;
+    public TextMeshProUGUI themesConfirmationNeedMoreCoins;
+    public TextMeshProUGUI themePackText;
     
+    public Button getTheme;
     private Sequence sequence;
+    public UIManager ui;
     public float canvasWidth;
     public void StartPosition(float width)
     {
@@ -101,6 +113,42 @@ public class MenuUI : MonoBehaviour
         return sequence;
     }
 
+    public Sequence DisplayThemesConfirmationPanel(ThemeProperties theme)
+    {
+        sequence = DOTween.Sequence();
+        Image screen = themesConfirmationScreen.GetComponent<Image>();
+        themesConfirmationTitle.text = "BUY " + theme.name;
+        themesConfirmationCoins.text = "-" + theme.coins;
+        getTheme.onClick.AddListener(delegate{ ui.BuyTheme(theme); });
+
+        if (!themesConfirmationPanel.gameObject.activeSelf)
+        {
+            themesConfirmationPanel.SetActive(true);
+            themesConfirmationScreen.SetActive(true);
+            sequence.Append(themesConfirmationPanel.transform.DOLocalMoveX(-400f, 0.4f).SetEase(Ease.OutBack));
+            sequence.Append(screen.DOFade(0.3f, 0.3f));
+        }
+        return sequence;
+    }
+
+    public Sequence HideThemesConfirmationPanel()
+    {
+        sequence = DOTween.Sequence();
+        Image screen = themesConfirmationScreen.GetComponent<Image>();
+        themesConfirmationNeedMoreCoins.DOFade(0f, 0f);
+
+        if (themesConfirmationPanel.gameObject.activeSelf)
+        {
+            getTheme.onClick.RemoveAllListeners();
+            sequence.Append(screen.DOFade(0f, 0.3f));
+            sequence.AppendCallback(() => themesConfirmationScreen.SetActive(false));
+            sequence.Append(themesConfirmationPanel.transform.DOLocalMoveX(-800f, 0.4f).SetEase(Ease.InBack));
+            sequence.OnComplete(() => themesConfirmationPanel.SetActive(false));
+        }
+        
+        return sequence;
+    }
+
     public Sequence ToggleOptionsMenu()
     {
         sequence = DOTween.Sequence();
@@ -123,24 +171,6 @@ public class MenuUI : MonoBehaviour
 
         return sequence;
     }
-
-    public void DisplayAllThemes(ThemeProperties[] themes)
-    {
-        foreach (ThemeProperties theme in themes)
-        {
-            GameObject themeItem = Instantiate(themePrefab, Vector3.zero, Quaternion.identity) as GameObject;
-            themeItem.name = theme.name;
-            themeItem.transform.SetParent(themesContainer.transform,false);
-
-            Image themeImage = themeItem.GetComponent<Image>();
-
-            if (theme.thumbnailImage == null)
-                themeImage.color = theme.thumbnailColor;
-            else
-                themeImage.sprite = theme.thumbnailImage;
-        }
-    }
-
     public void Reset() 
     {
         // Scale to 0
@@ -153,6 +183,15 @@ public class MenuUI : MonoBehaviour
         btnNoAds.DOScale(0f, 0.0f);
         this.gameObject.SetActive(true);
         noAds.SetActive(false);
+    }
+
+    public void UpdateScore(int value) { bestScore.text = value.ToString(); }
+    public void UpdateCoins(int value) { totalCoins.text = value.ToString(); }
+    public void UpdateThemePackText(string value)
+    { 
+        themePackText.text = value; 
+        RectTransform rt = themePackText.gameObject.GetComponent<RectTransform>();
+        rt.anchoredPosition = new Vector3(0, 70f, 0);
     }
 
 }

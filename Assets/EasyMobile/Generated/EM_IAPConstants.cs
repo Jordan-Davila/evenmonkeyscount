@@ -8,6 +8,7 @@ namespace EasyMobile
 {
 	public static class EM_IAPConstants
 	{
+		public const string Product_Theme_Pack = "Theme Pack";
 		public const string Product_No_Ads = "No Ads";
 
 	}
